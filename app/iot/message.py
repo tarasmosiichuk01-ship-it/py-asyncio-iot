@@ -11,6 +11,7 @@ class MessageType(Enum):
     CLOSE = auto()
     FLUSH = auto()
     CLEAN = auto()
+    STOP = auto()
 
 
 @dataclass
