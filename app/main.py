@@ -21,6 +21,7 @@ async def main() -> None:
         service.register_device(toilet),
     )
 
+    # wake up
     await run_parallel(
         service.send_msg(Message(hue_light_id, MessageType.SWITCH_ON)),
         run_sequence(
@@ -34,6 +35,17 @@ async def main() -> None:
             )
         )
     )
+
+    # sleep
+    await run_parallel(
+        service.send_msg(Message(hue_light_id, MessageType.SWITCH_OFF)),
+        service.send_msg(Message(speaker_id, MessageType.SWITCH_OFF)),
+        run_sequence(
+            service.send_msg(Message(toilet_id, MessageType.FLUSH)),
+            service.send_msg(Message(toilet_id, MessageType.CLEAN)),
+        )
+    )
+
 
 if __name__ == "__main__":
     start = time.perf_counter()
